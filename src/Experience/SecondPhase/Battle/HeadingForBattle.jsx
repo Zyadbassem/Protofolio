@@ -7,6 +7,8 @@ function HeadingForBattle({ mobile = false }) {
         <h1
           style={{
             color: "white",
+            fontFamily: "'Outfit', sans-serif",
+            fontWeight: "700",
           }}
         >
           Skills
@@ -16,6 +18,8 @@ function HeadingForBattle({ mobile = false }) {
         <h1
           style={{
             color: "white",
+            fontFamily: "'Outfit', sans-serif",
+            fontWeight: "700",
           }}
         >
           Certificates

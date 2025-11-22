@@ -16,6 +16,7 @@ import BackgroundAudio from "./Background/BackgroundAudio";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import Divider from "./Globals/Divider";
 import { Cloud } from "@react-three/drei";
+
 function Experience({ mobile = false }) {
   return (
     <>
@@ -64,17 +65,18 @@ function Experience({ mobile = false }) {
               intensity={0.5}
               luminanceThreshold={0.6}
               luminanceSmoothing={0.5}
+              mipmapBlur // Added for better performance/quality balance
             />
 
             {/* Adds depth, mood — like space ambient darkness */}
-            <Vignette eskil={false} offset={0.1} darkness={1.3} />
+            <Vignette eskil={false} offset={0.1} darkness={1.1} />
           </EffectComposer>
         )}
         <Cloud
-          opacity={0.9}
+          opacity={0.5}
           speed={0.4}
-          segments={20}
-          volume={6}
+          segments={10} // Reduced from 20
+          volume={3} // Reduced from 6
           color="#2f2f2f"
           fade={true}
           position={[0, -4, -5]}

@@ -6,7 +6,8 @@ function Divider({ position, section = "Projects" }) {
       <h1
         style={{
           color: "white",
-          font: "sans",
+          fontFamily: "'Outfit', sans-serif",
+          fontWeight: "700",
           fontSize: "15px",
         }}
       >

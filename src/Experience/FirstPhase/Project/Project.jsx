@@ -34,19 +34,22 @@ function Project({
   });
   return (
     <group position={position}>
-      <Html transform position={[0, 3.5, 0]}>
+      <Html transform position={[0, 3.5, 0]} distanceFactor={10}>
         <a
           style={{
-            width: "auto",
-            padding: "3px 10px",
-            border: "1px solid white",
-            borderRadius: "5px",
-            maxWidth: "200px",
+            width: "220px",
+            padding: "15px",
+            background: "rgba(0, 0, 0, 0.6)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            borderRadius: "12px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "space-between",
+            gap: "10px",
             textDecoration: "none",
+            transition: "all 0.3s ease",
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
           }}
           href={projectLink}
           target="_blank"
@@ -54,45 +57,53 @@ function Project({
           <div
             style={{
               width: "100%",
-              padding: "3px 10px",
               display: "flex",
-              gap: "auto",
-              margin: "10px",
               alignItems: "center",
-              justifyContent: "start",
+              justifyContent: "space-between",
+              gap: "10px",
             }}
           >
             <img
               src={`./project_assets/${projectImage}`}
               style={{
-                width: "100px",
-                height: "60px",
-                border: "1px solid rgb(48, 71, 96)",
+                width: "80px",
+                height: "50px",
+                objectFit: "cover",
+                borderRadius: "6px",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
               }}
             />
             <h1
               style={{
                 color: "white",
-                fontFamily: "sans-serif",
-                fontSize: "10px",
-                fontWeight: "800",
-                marginLeft: "auto",
-                marginRight: "auto",
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: "14px",
+                fontWeight: "700",
+                margin: 0,
+                flex: 1,
+                textAlign: "right",
               }}
             >
               {projectName}
             </h1>
-            {error && (
-              <span style={{ color: "white", fontSize: "5px" }}>({error})</span>
-            )}
           </div>
+
+          {error && (
+            <span style={{ color: "#ff6b6b", fontSize: "10px", fontFamily: "'Outfit', sans-serif" }}>
+              ({error})
+            </span>
+          )}
 
           <p
             style={{
-              color: "white",
-              fontFamily: "sans-serif",
-              fontSize: "8px",
+              color: "rgba(255, 255, 255, 0.8)",
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "11px",
               fontWeight: "300",
+              margin: 0,
+              lineHeight: "1.4",
+              textAlign: "left",
+              width: "100%",
             }}
           >
             {projectDescription}

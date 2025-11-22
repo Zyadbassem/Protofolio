@@ -19,98 +19,116 @@ function PhoneControls({ mobile = true }) {
   };
   return !mobile ? null : (
     <div
-      id="controls"
       style={{
-        zIndex: 1,
-        color: "white",
         position: "fixed",
+        bottom: "40px",
+        left: "50%",
+        transform: "translateX(-50%)",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        top: "90%",
-        left: "50%",
-        gap: "8px",
-        transform: "translate(-50%, -50%)",
+        gap: "15px",
+        zIndex: 1000,
+        userSelect: "none",
+        WebkitUserSelect: "none",
+        WebkitTapHighlightColor: "transparent",
       }}
     >
-      <button
-        id="ArrowUp"
-        style={{
-          fontSize: "25px",
-          padding: "5px 10px",
-          backgroundColor: "#676767",
-          opacity: "90%",
-          color: "white",
-          outline: "none",
-          WebkitUserSelect: "none",
-          userSelect: "none",
-          WebkitTouchCallout: "none",
-          touchAction: "manipulation",
-          WebkitTapHighlightColor: "transparent",
-        }}
-        onTouchStart={handleControllersDown}
-        onTouchEnd={handleControllersUp}
-      >
-        <i className="fa-solid fa-arrow-up"></i>
-      </button>
-      <div id="downleftright" style={{ display: "flex", gap: "5px" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <button
-          id="ArrowLeft"
-          style={{
-            fontSize: "25px",
-            padding: "5px 10px",
-            backgroundColor: "#676767",
-            opacity: "90%",
-            color: "white",
-            outline: "none",
-            WebkitUserSelect: "none",
-            userSelect: "none",
-            WebkitTouchCallout: "none",
-            touchAction: "manipulation",
-            WebkitTapHighlightColor: "transparent",
-          }}
+          id="ArrowUp"
           onTouchStart={handleControllersDown}
           onTouchEnd={handleControllersUp}
+          style={{
+            width: "60px",
+            height: "60px",
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            borderRadius: "50%",
+            color: "white",
+            fontSize: "24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.1s ease, background 0.2s ease",
+            outline: "none",
+          }}
+        >
+          <i className="fa-solid fa-arrow-up"></i>
+        </button>
+      </div>
+      <div style={{ display: "flex", gap: "20px" }}>
+        <button
+          id="ArrowLeft"
+          onTouchStart={handleControllersDown}
+          onTouchEnd={handleControllersUp}
+          style={{
+            width: "60px",
+            height: "60px",
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            borderRadius: "50%",
+            color: "white",
+            fontSize: "24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.1s ease, background 0.2s ease",
+            outline: "none",
+          }}
         >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         <button
           id="ArrowDown"
-          style={{
-            fontSize: "25px",
-            padding: "5px 10px",
-            backgroundColor: "#676767",
-            opacity: "90%",
-            color: "white",
-            outline: "none",
-            WebkitUserSelect: "none",
-            userSelect: "none",
-            WebkitTouchCallout: "none",
-            touchAction: "manipulation",
-            WebkitTapHighlightColor: "transparent",
-          }}
           onTouchStart={handleControllersDown}
           onTouchEnd={handleControllersUp}
+          style={{
+            width: "60px",
+            height: "60px",
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            borderRadius: "50%",
+            color: "white",
+            fontSize: "24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.1s ease, background 0.2s ease",
+            outline: "none",
+          }}
         >
           <i className="fa-solid fa-arrow-down"></i>
         </button>
         <button
           id="ArrowRight"
-          style={{
-            fontSize: "25px",
-            padding: "5px 10px",
-            backgroundColor: "#676767",
-            opacity: "90%",
-            color: "white",
-            outline: "none",
-            WebkitUserSelect: "none",
-            userSelect: "none",
-            WebkitTouchCallout: "none",
-            touchAction: "manipulation",
-            WebkitTapHighlightColor: "transparent",
-          }}
           onTouchStart={handleControllersDown}
           onTouchEnd={handleControllersUp}
+          style={{
+            width: "60px",
+            height: "60px",
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            borderRadius: "50%",
+            color: "white",
+            fontSize: "24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.1s ease, background 0.2s ease",
+            outline: "none",
+          }}
         >
           <i className="fa-solid fa-arrow-right"></i>
         </button>

@@ -176,42 +176,78 @@ function SpaceRocket({ cameraFollower = true, mobile = false }) {
     else return { x: outX, y: outY };
   };
 
+    const [autoPilotTarget, setAutoPilotTarget] = useState(null);
+
+    useEffect(() => {
+      const handleNavigate = (e) => {
+        setAutoPilotTarget(e.detail.y);
+        setThrusting(true);
+      };
+      window.addEventListener("rocket-navigate", handleNavigate);
+      return () => window.removeEventListener("rocket-navigate", handleNavigate);
+    }, []);
+
   useFrame(({ camera }, delta) => {
     if (!spaceRocketRef.current) return;
     const currentVel = spaceRocketRef.current.linvel();
     const position = spaceRocketRef.current.translation();
 
-    if (keysPressed.current.ArrowUp || keysPressed.current.KeyW) {
-      TARGET_VEL.current.y = Math.min(TARGET_VEL.current.y + 0.1, MAX_VELOCITY);
-    } else if (keysPressed.current.ArrowDown || keysPressed.current.KeyS) {
-      TARGET_VEL.current.y = Math.max(
-        TARGET_VEL.current.y - 0.1,
-        -MAX_VELOCITY
-      );
+    // Auto-pilot logic
+    if (autoPilotTarget !== null) {
+      const dist = autoPilotTarget - position.y;
+      
+      // Stop auto-pilot if close enough
+      if (Math.abs(dist) < 1) {
+        setAutoPilotTarget(null);
+        setThrusting(false);
+      } else {
+        // Calculate desired velocity based on distance
+        const direction = Math.sign(dist);
+        const speed = Math.min(Math.abs(dist) * 3, MAX_VELOCITY * 4); // Increased speed
+        TARGET_VEL.current.y = direction * speed;
+        
+        // Center the rocket horizontally during auto-pilot
+        TARGET_VEL.current.x = THREE.MathUtils.lerp(TARGET_VEL.current.x, 0, 0.1);
+        
+        // Visual tilt reset
+        spaceRocketRef.current.setRotation({ x: 0, y: 0, z: 0, w: 1 });
+      }
     } else {
-      TARGET_VEL.current.y > 0
-        ? (TARGET_VEL.current.y -= 0.01)
-        : (TARGET_VEL.current.y += 0.01);
+      // Manual control logic
+      if (keysPressed.current.ArrowUp || keysPressed.current.KeyW) {
+        TARGET_VEL.current.y = Math.min(TARGET_VEL.current.y + 0.1, MAX_VELOCITY);
+      } else if (keysPressed.current.ArrowDown || keysPressed.current.KeyS) {
+        TARGET_VEL.current.y = Math.max(
+          TARGET_VEL.current.y - 0.1,
+          -MAX_VELOCITY
+        );
+      } else {
+        TARGET_VEL.current.y > 0
+          ? (TARGET_VEL.current.y -= 0.01)
+          : (TARGET_VEL.current.y += 0.01);
+      }
     }
 
     /**
      *  Black hole effect
+     *  Only apply if NOT in auto-pilot mode
      **/
+    if (autoPilotTarget === null) {
+      const { x, y } = calculateBlackHoleForce(position.x, position.y);
 
-    const { x, y } = calculateBlackHoleForce(position.x, position.y);
+      if (Math.abs(x) > 0 || Math.abs(y) > 0) {
+        let posX =
+          x > 0
+            ? Math.min(TARGET_VEL.current.x + x, MAX_VELOCITY * 3)
+            : Math.max(TARGET_VEL.current.x + x, -MAX_VELOCITY * 3);
+        let posY =
+          y > 0
+            ? Math.min(TARGET_VEL.current.y + y, MAX_VELOCITY * 2)
+            : Math.max(TARGET_VEL.current.y + y, -MAX_VELOCITY * 2);
 
-    if (Math.abs(x) > 0 || Math.abs(y) > 0) {
-      let posX =
-        x > 0
-          ? Math.min(TARGET_VEL.current.x + x, MAX_VELOCITY * 3)
-          : Math.max(TARGET_VEL.current.x + x, -MAX_VELOCITY * 3);
-      let posY =
-        y > 0
-          ? Math.min(TARGET_VEL.current.y + y, MAX_VELOCITY * 2)
-          : Math.max(TARGET_VEL.current.y + y, -MAX_VELOCITY * 2);
-
-      TARGET_VEL.current.x = posX;
-      TARGET_VEL.current.y = posY;
+        TARGET_VEL.current.x = posX;
+        TARGET_VEL.current.y = posY;
+      }
     }
 
     if (keysPressed.current.ArrowLeft || keysPressed.current.KeyA) {
@@ -238,8 +274,8 @@ function SpaceRocket({ cameraFollower = true, mobile = false }) {
         z: -ROTATION_AMOUNT,
         w: 1,
       });
-    } else {
-      // Gradually return to center when no lateral keys are pressed
+    } else if (autoPilotTarget === null) {
+      // Gradually return to center when no lateral keys are pressed (only if not in auto-pilot)
       TARGET_VEL.current.x *= 0.95;
     }
 
@@ -252,7 +288,9 @@ function SpaceRocket({ cameraFollower = true, mobile = false }) {
     };
 
     spaceRocketRef.current.setLinvel(smoothedVel, true);
-    if (keysPressed.current.ArrowUp || keysPressed.current.KeyW) {
+    
+    // Apply thrust visual and physics only if manual thrusting OR auto-pilot is active
+    if (thrusting || autoPilotTarget !== null) {
       spaceRocketRef.current.applyImpulse(
         {
           x: 0,
@@ -261,7 +299,10 @@ function SpaceRocket({ cameraFollower = true, mobile = false }) {
         },
         true
       );
-      if (keysPressed.current.ArrowLeft || keysPressed.current.KeyA) {
+    }
+    
+    if (keysPressed.current.ArrowUp || keysPressed.current.KeyW) {
+       if ((keysPressed.current.ArrowLeft || keysPressed.current.KeyA) && autoPilotTarget === null) {
         spaceRocketRef.current.applyImpulse(
           {
             x: -STEERING_FORCE * delta * 60,
@@ -270,7 +311,7 @@ function SpaceRocket({ cameraFollower = true, mobile = false }) {
           },
           true
         );
-      } else if (keysPressed.current.ArrowRight || keysPressed.current.KeyD) {
+      } else if ((keysPressed.current.ArrowRight || keysPressed.current.KeyD) && autoPilotTarget === null) {
         spaceRocketRef.current.applyImpulse(
           {
             x: STEERING_FORCE * delta * 60,

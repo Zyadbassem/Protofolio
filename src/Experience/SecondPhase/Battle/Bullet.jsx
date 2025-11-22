@@ -5,6 +5,7 @@ import vertexShader from "./vertex.glsl";
 import { gsap } from "gsap";
 import { Html } from "@react-three/drei";
 import useAudioListener from "../../Globals/useAudioListener";
+import { useAssetLoader } from "../../Globals/useAssetLoader";
 
 function Bullet({
   count = 1500,
@@ -20,10 +21,10 @@ function Bullet({
   const { r, g, b } = new THREE.Color(bulletColor);
   const passColor = new THREE.Vector3(r, g, b);
   const audioListener = useAudioListener();
+  const assets = useAssetLoader();
 
   // Audio setup
   const positionalAudioRef = useRef();
-  const audioLoaderRef = useRef(new THREE.AudioLoader());
 
   // create the points geometry
   const geometry = useMemo(() => {
@@ -68,25 +69,23 @@ function Bullet({
 
   // useEffect to handle the sound effect
   useEffect(() => {
-    if (audioListener && groupRef.current) {
+    if (audioListener && groupRef.current && assets.laserAudio) {
       const positionalAudio = new THREE.PositionalAudio(audioListener);
 
-      audioLoaderRef.current.load("./ship/laserShot.mp3", (buffer) => {
-        positionalAudio.setBuffer(buffer);
-        positionalAudio.setRefDistance(5);
-        positionalAudio.setVolume(0.5);
-        positionalAudio.setLoop(false);
-        positionalAudio.setRefDistance(5);
-        positionalAudio.setRolloffFactor(2);
-        positionalAudio.setMaxDistance(10);
+      positionalAudio.setBuffer(assets.laserAudio);
+      positionalAudio.setRefDistance(5);
+      positionalAudio.setVolume(0.5);
+      positionalAudio.setLoop(false);
+      positionalAudio.setRefDistance(5);
+      positionalAudio.setRolloffFactor(2);
+      positionalAudio.setMaxDistance(10);
 
-        groupRef.current.add(positionalAudio);
-        positionalAudioRef.current = positionalAudio;
+      groupRef.current.add(positionalAudio);
+      positionalAudioRef.current = positionalAudio;
 
-        positionalAudio.play();
-      });
+      positionalAudio.play();
     }
-  }, [audioListener]);
+  }, [audioListener, assets.laserAudio]);
 
   // useEffect to handle the animation of the bullet
   useEffect(() => {
