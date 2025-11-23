@@ -126,11 +126,12 @@ function FirstPhase({ position = [0, 0, 0], mobile = false }) {
         <Project
           position={[mobile ? 0 : 5, 24, -10]}
           radius={1.5}
-          projectName="Outfit Oasis"
-          projectDescription="Biggest project I built so far. This is an E-commerce web app with authentication and an admin  page. The admin can add an item with it’s 3d model and it will be added automatically to the clothing wheel. "
-          projectImage="outfitoasisimage.png"
-          error="deployment issue"
-          projectLink="https://outfitoasis-production-c9e3.up.railway.app/"
+          projectName="Book Buddy"
+          projectDescription="I read books frequently, and sometimes I come across words I don’t understand. Even if I check the dictionary, it’s only a
+matter of time before I forget their meanings again. Book-Buddy saves the definitions for you and classifies them by book,
+allowing you to review the words whenever you want. "
+          projectImage="book-buddy.png"
+          projectLink="https://book-buddy-lovat.vercel.app/"
           planet="uranus.jpg"
           skills={[
             {

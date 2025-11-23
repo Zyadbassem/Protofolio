@@ -21,7 +21,7 @@ function BoredSection({ position = [0, 0, 0] }) {
             textDecoration: "none",
             color: "white",
           }}
-          href="https://drive.google.com/file/d/1sddDGm0pAExCNQzIbLUaZNnNCyxHs5NS/view?usp=sharing"
+          href="https://drive.google.com/file/d/1LJAZ9iIG2jujMWyCnjb2jFcXHnmiVSkB/view?usp=sharing"
           target="_blank"
         >
           Get my resume
